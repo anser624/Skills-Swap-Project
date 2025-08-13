@@ -18,7 +18,7 @@ function Login() {
       e.preventDefault();
       setLoading(true);
       const res = await axios.post(
-        "https://my-server-hazel.vercel.app/auth/login",
+        "https://server-ruddy-nu.vercel.app/auth/login",
         {
           email,
           password,

@@ -11,7 +11,7 @@ const Navbar = ({ setIsAuthenticated }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogOut = async () => {
-    await axios.post("https://my-server-hazel.vercel.app/auth/logout", {}, { withCredentials: true });
+    await axios.post("https://server-ruddy-nu.vercel.app/auth/logout", {}, { withCredentials: true });
     console.log("logout hogya Ustad !");
     localStorage.removeItem("userInfo");
     dispatch(remove());

@@ -18,7 +18,7 @@ function SignUp() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "https://my-server-hazel.vercel.app/auth/signup",
+        "https://server-ruddy-nu.vercel.app/auth/signup",
         {
           name,
           email,

@@ -30,11 +30,14 @@ authRouter.get('/verifyAuth', async (req, res) => {
 authRouter.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("Body received:", req.body);
     const user = await UserAuth.findOne({ email: email });
+        console.log("User found:", user);
     if (!user) {
       return res.status(401).json("User Not Found !");
     }
     const isMatch = await bcrypt.compare(password, user.password);
+     console.log("Password match:", isMatch);
     if (!isMatch) {
       return res.status(401).json("Password Not Match !");
     }
