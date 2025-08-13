@@ -23,7 +23,7 @@ const Profile = () => {
     setLoading(true);
     try {
       const res = await axios.patch(
-        "http://localhost:3000/data/update",
+        "https://my-server-hazel.vercel.app/data/update",
         {
           // body for backend
           id: user?.id,

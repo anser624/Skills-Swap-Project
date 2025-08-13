@@ -18,7 +18,7 @@ function SignUp() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/auth/signup",
+        "https://my-server-hazel.vercel.app/auth/signup",
         {
           name,
           email,

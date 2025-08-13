@@ -9,20 +9,20 @@ dotenv.config();
 const authRouter = express.Router();
 
 
-authRouter.get('/verifyAuth',async(req,res)=>{
-    const token = req.cookies.token;
-    
-    if(!token){ 
-      return res.status(401).json({valid:false})
-    }
-    try {
-       jwt.verify(token,process.env.KEY);
-       console.log("JWT KEY:", process.env.KEY); // 👈 ye line add karo
-       return res.status(201).json({valid:true}) 
-    } catch (error) {
-        console.log("JWT Verification Failed:", error); // 👈 Add this
-         return res.status(401).json({ valid: false }); // 👈 expired or invalid
-    }
+authRouter.get('/verifyAuth', async (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ valid: false })
+  }
+  try {
+    jwt.verify(token, process.env.KEY);
+    console.log("JWT KEY:", process.env.KEY); // 👈 ye line add karo
+    return res.status(201).json({ valid: true })
+  } catch (error) {
+    console.log("JWT Verification Failed:", error); // 👈 Add this
+    return res.status(401).json({ valid: false }); // 👈 expired or invalid
+  }
 })
 
 
@@ -43,12 +43,15 @@ authRouter.post("/login", async (req, res) => {
     });
 
     res.cookie("token", token, {
+      httpOnly: true,
+      secure: true, // Vercel HTTPS use karta hai
+      sameSite: "None", // ✅ Cross-origin ke liye
       expires: new Date(Date.now() + 60 * 30000),
     });
     res.status(200).json({
       message: "Login Successfully Welcome !",
       data: {
-        id:user._id,
+        id: user._id,
         name: user.name,
         email: user.email,
         gender: user.gender,

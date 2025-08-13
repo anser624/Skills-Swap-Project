@@ -18,12 +18,16 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // ✅ Tumhara frontend origin
+    origin: process.env.FRONTEND_URL, // ✅ Tumhara frontend origin
     credentials: true,
   })
 );
 
-app.get("/", (req, res) => {
+connectToDb()
+  .then(() => console.log("Connect To DataBase Successfully!"))
+  .catch((error) => console.log("Something Wrong To Connect Db " + error));
+
+  app.get("/", (req, res) => {
   res.send("✅ Server is running on Vercel!");
 });
 
@@ -31,9 +35,6 @@ app.get("/", (req, res) => {
 app.use("/auth", authRouter);
 app.use("/data", usersData);
 
-connectToDb()
-  .then(() => console.log("Connect To DataBase Successfully!"))
-  .catch((error) => console.log("Something Wrong To Connect Db " + error));
 
 // app.listen(process.env.PORT, (req, res) => {
 //   console.log("Server Started on Port 3000 !!");
