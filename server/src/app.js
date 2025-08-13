@@ -23,6 +23,11 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => {
+  res.send("✅ Server is running on Vercel!");
+});
+
+
 app.use("/auth", authRouter);
 app.use("/data", usersData);
 
@@ -34,6 +39,8 @@ connectToDb()
 //   console.log("Server Started on Port 3000 !!");
 //   console.log("http://localhost:3000");
 // });
+
+
 
 
 module.exports = app;
