@@ -30,10 +30,10 @@ connectToDb()
   .then(() => console.log("Connect To DataBase Successfully!"))
   .catch((error) => console.log("Something Wrong To Connect Db " + error));
 
-app.listen(process.env.PORT, (req, res) => {
-  console.log("Server Started on Port 3000 !!");
-  console.log("http://localhost:3000");
-});
+// app.listen(process.env.PORT, (req, res) => {
+//   console.log("Server Started on Port 3000 !!");
+//   console.log("http://localhost:3000");
+// });
 
 
 module.exports = app;
