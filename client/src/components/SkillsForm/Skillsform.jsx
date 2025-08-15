@@ -96,7 +96,7 @@ const Skillsform = () => {
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">       
-        {/* <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1">
           <label className="block font-semibold mb-1 text-gray-700 dark:text-white">
             City
           </label>
@@ -121,7 +121,7 @@ const Skillsform = () => {
             className="w-full border border-gray-300 dark:border-slate-700 dark:bg-slate-800 text-black dark:text-white rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
             required
           />
-        </div> */}
+        </div>
         {/* Teach Skill */}
         <motion.div
           className="flex justify-center gap-4 items-center"

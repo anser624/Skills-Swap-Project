@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaEdit } from "react-icons/fa"; // ✏️ Edit icon
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { X } from "lucide-react";
 import { info } from "../../ReduxStore/features/userSlice";
 
 const Profile = () => {
@@ -11,6 +12,8 @@ const Profile = () => {
   const [gender, setGender] = useState("");
   const [teach, setTeach] = useState([]);
   const [learn, setLearn] = useState([]);
+  const [teachArray, setTeachArray] = useState([]);
+  const [learnArray, setLearnArray] = useState([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userSlice.user);
@@ -29,8 +32,8 @@ const Profile = () => {
           id: user?.id,
           city: city || user.city,       // Agar city empty hai to purani value use karo
           gender: gender || user.gender, // Agar gender empty hai to purani value use karo
-          learn: learn.length > 0 ? learn : user.learn,
-          teach: teach.length > 0 ? teach : user.teach
+          learn: learnArray.length > 0 ? learnArray : user.learn,
+          teach: teachArray.length > 0 ? teachArray : user.teach
         },
         {
           withCredentials: true,
@@ -57,6 +60,45 @@ const Profile = () => {
     setLearn(user.learn?.join(", ") || "");
     setEditModal(true);
   };
+
+  const handleTeachAdd = (e) => {
+    e.preventDefault();
+    if (teach.trim() !== "") {
+      setTeachArray([teach, ...teachArray]);
+    }
+    setTeach(""); // Clear input
+    console.log("Teach Array :", teachArray);
+    console.log(teachArray);
+  };
+
+  const handleLearnAdd = (e) => {
+    e.preventDefault();
+    if (learn.trim() !== "") {
+      setLearnArray([learn, ...learnArray]);
+    }
+    setLearn(""); // Clear input
+    console.log("Learn Array :", learnArray);
+    console.log(learnArray);
+  };
+  const removeTeachSkill = (index, e) => {
+    e.preventDefault()
+    setTeachArray((val) => val.filter((item, i) => i !== index));
+  };
+  const removeLearnSkill = (index, e) => {
+    e.preventDefault()
+    setLearnArray((val) => val.filter((item, i) => i !== index));
+  };
+
+  const Loader = () => {
+    return (
+      <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+    );
+  };
+
+  useEffect(() => {
+    console.log("Updated Teach Array:", teachArray);
+    console.log("Updated Learn Array:", learnArray);
+  }, [teachArray, learnArray]);
 
   return (
     <motion.div
@@ -88,7 +130,7 @@ const Profile = () => {
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.1, duration: 0.1, ease: "easeOut" }}
-        whileHover={{ scale: 1.02 }}
+        whileHover={editModal ? {} : { scale: 1.02 }}
         className="bg-slate-900 border border-slate-700 rounded-2xl shadow-xl p-10 w-full max-w-3xl"
       >
         <div className="flex w-full justify-between">
@@ -98,7 +140,7 @@ const Profile = () => {
           <motion.button
             onClick={handleEditClick}
             whileHover={{ scale: 1.1, rotate: 1, transitionDuration: 0.3 }}
-            whileTap={{ scale: 0.9 }}
+            whileTap={editModal ? {} : { scale: 1.02 }}
             transition={{ duration: 0.1, type: "", stiffness: 900 }} // 👈 animation speed control
             className="flex items-center gap-2 px-4 py-1  text-white rounded-md shadow-lg hover:shadow-xl transition-all duration-300"
           >
@@ -107,71 +149,213 @@ const Profile = () => {
           </motion.button>
         </div>
         {editModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white text-black p-6 rounded-lg w-[90%] max-w-md">
-              <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
+          <div className="fixed inset-50 bg-opacity-50 flex justify-center items-center z-50">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, ease: [0.50, 1, 0.13, 1] }}
+              className="space-x-6 shadow-md  max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-700 text-black p-6 rounded-lg w-[90%] max-w-md">
+              <h2 className="text-white text-center text-2xl font-bold mb-4">Edit Profile</h2>
 
               <form onSubmit={handleUpdate}>
-                {/* Gender Field */}
-                <select
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  className="mb-3 w-full border p-2"
-                >
-                  <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
+                <div className="flex flex-col gap-5">
+                  {/* Gender Field */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className="flex flex-col flex-1">
+                    <label className="block font-semibold mb-1 text-gray-700 dark:text-white">
+                      Gender
+                    </label>
+                    <select
+                      value={gender}
+                      onChange={(e) => setGender(e.target.value)}
+                      className="w-full border border-gray-300 dark:border-slate-700 dark:bg-slate-800 text-black dark:text-white rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+                      required
+                    >
+                      <option value="Other">Other</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </motion.div>
 
-                {/* City Field */}
-                <input
-                  type="text"
-                  placeholder="City"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  className="mb-3 w-full border p-2"
-                />
+                  {/* City Field */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className="flex flex-col flex-1">
+                    <label className="block font-semibold mb-1 text-gray-700 dark:text-white">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      placeholder="e.g. Karachi,Lahore"
+                      className="w-full border border-gray-300 dark:border-slate-700 dark:bg-slate-800 text-black dark:text-white rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+                      required
+                    />
+                  </motion.div>
 
-                {/* Teach Skills */}
-                <input
-                  type="text"
-                  placeholder="Teach Skills (comma separated)"
-                  value={teach}
-                  onChange={(e) => setTeach(e.target.value)}
-                  className="mb-3 w-full border p-2"
-                />
-
-                {/* Learn Skills */}
-                <input
-                  type="text"
-                  placeholder="Learn Skills (comma separated)"
-                  value={learn}
-                  onChange={(e) => setLearn(e.target.value)}
-                  className="mb-3 w-full border p-2"
-                />
-
-                <div className="flex justify-end gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setEditModal(false)}
-                    className="text-gray-500"
+                  {/* Teach Skill */}
+                  <motion.div
+                    className="flex justify-center gap-4 items-center"
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                   >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="bg-green-600 text-white px-4 py-1 rounded-md"
+                    <div className="flex flex-col flex-1">
+                      <label className="block font-semibold mb-1 text-gray-700 dark:text-white">
+                        Skill you want to Teach
+                      </label>
+                      <input
+                        type="text"
+                        value={teach}
+                        onChange={(e) => setTeach(e.target.value)}
+                        placeholder="e.g. Canva, ReactJS"
+                        className="w-full border border-gray-300 dark:border-slate-700 dark:bg-slate-800 text-black dark:text-white rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+                      />
+                    </div>
+                    <motion.button
+                      onClick={(e) => handleTeachAdd(e)}
+                      type="submit"
+                      className={`flex justify-center items-center mt-6 gap-2 bg-blue-600 text-white py-2 px-4 rounded transition ${loading ? "opacity-60 cursor-not-allowed" : "hover:bg-blue-700"
+                        }`}
+                      disabled={loading}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      {loading ? (
+                        <>
+                          <Loader /> Adding...
+                        </>
+                      ) : (
+                        "Add"
+                      )}
+                    </motion.button>
+                  </motion.div>
+
+                  {/* Learn Skill */}
+                  <motion.div
+                    className="flex gap-4 items-center"
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                   >
-                    {loading ? (
-                      <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    ) : (
-                      "Update"
-                    )}
-                  </button>
+                    <div className="flex flex-col flex-1">
+                      <label className="block font-semibold mb-1 text-gray-700 dark:text-white">
+                        Skill you want to Learn
+                      </label>
+                      <input
+                        type="text"
+                        value={learn}
+                        onChange={(e) => setLearn(e.target.value)}
+                        placeholder="e.g. NodeJS, Digital Marketing"
+                        className="w-full border border-gray-300 dark:border-slate-700 dark:bg-slate-800 text-black dark:text-white rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+                      />
+                    </div>
+                    <motion.button
+                      onClick={(e) => handleLearnAdd(e)}
+                      type="submit"
+                      className={`flex justify-center items-center mt-6 gap-2 bg-blue-600 text-white py-2 px-4 rounded transition ${loading ? "opacity-60 cursor-not-allowed" : "hover:bg-blue-700"
+                        }`}
+                      disabled={loading}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      {loading ? (
+                        <>
+                          <Loader /> Adding...
+                        </>
+                      ) : (
+                        "Add"
+                      )}
+                    </motion.button>
+                  </motion.div>
+
+                  {/* Skills Preview Section */}
+                  <motion.div
+                    className="bg-gradient-to-br from-blue-900 to-black text-white px-5 py-4 my-4 rounded-lg shadow-md"
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                  >
+                    {/* Teach Skills */}
+                    <div className="mb-4">
+                      <h1 className="font-bold text-lg mb-2">Teach Skills:</h1>
+                      <div className="flex flex-wrap gap-2">
+                        <AnimatePresence>
+                          {teachArray.map((skill, index) => (
+                            <motion.div
+                              key={index}
+                              className="flex items-center gap-2 bg-blue-700 px-3 py-1 rounded-full text-sm"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.7 }}
+                            >
+                              {skill}
+                              <button
+                                onClick={(e) => removeTeachSkill(index, e)}
+                                className="text-white hover:text-red-300"
+                              >
+                                <X size={16} />
+                              </button>
+                            </motion.div>
+                          ))}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+
+                    {/* Learn Skills */}
+                    <div>
+                      <h1 className="font-bold text-lg mb-2">Learn Skills:</h1>
+                      <div className="flex flex-wrap gap-2">
+                        <AnimatePresence>
+                          {learnArray.map((skill, index) => (
+                            <motion.div
+                              key={index}
+                              className="flex items-center gap-2 bg-green-700 px-3 py-1 rounded-full text-sm"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.7 }}
+                            >
+                              {skill}
+                              <button
+                                onClick={(e) => removeLearnSkill(index,e)}
+                                className="text-white hover:text-red-300"
+                              >
+                                <X size={16} />
+                              </button>
+                            </motion.div>
+                          ))}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  <div className="flex justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setEditModal(false)}
+                      className="text-black border-2 border-gray-300 rounded-lg px-3 bg-white"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="bg-green-600 text-white px-4 py-1 rounded-md"
+                    >
+                      {loading ? (
+                        <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        "Update"
+                      )}
+                    </button>
+                  </div>
                 </div>
               </form>
-            </div>
+            </motion.div>
           </div>
         )}
 

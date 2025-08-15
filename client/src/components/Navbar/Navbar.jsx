@@ -5,7 +5,7 @@ import { remove } from "../../ReduxStore/features/userSlice";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
-const Navbar = ({ setIsAuthenticated }) => {
+const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -16,7 +16,6 @@ const Navbar = ({ setIsAuthenticated }) => {
     localStorage.removeItem("userInfo");
     dispatch(remove());
     navigate("/login");
-    // setIsAuthenticated(false); // 👈 Add this line
   };
 
   const user = useSelector((state) => state.userSlice.user);
