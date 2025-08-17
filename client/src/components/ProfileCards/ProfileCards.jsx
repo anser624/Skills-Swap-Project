@@ -1,23 +1,45 @@
-import { motion } from 'framer-motion';
-import React from 'react'
+import { User, Mail, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
 
-const ProfileCards = () => {
+const ProfileCard = ({ name, email, city }) => {
   return (
     <motion.div
-      className="bg-slate-800 shadow-md border border-slate-700 rounded-xl p-6 text-center w-72"
-      whileHover={{ scale: 1.05 }}
-      transition={{ duration: 0.3 }}
+      className="bg-slate-800 p-6 rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer"
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
     >
-      <img
-        src={user.profilePic || "/default-avatar.png"}
-        alt={user.Name}
-        className="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-yellow-400"
-      />
-      <h2 className="text-xl font-bold text-yellow-300">{user.Name}</h2>
-      <p className="text-gray-400">{user.email}</p>
-      <p className="text-sm text-gray-300 mt-2">{user.bio || "No bio available"}</p>
+      <div className="flex flex-col items-center">
+        {/* Avatar */}
+        <motion.div
+          className="w-20 h-20 rounded-full  bg-slate-700 flex items-center justify-center mb-4"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <User className="w-10 h-10 text-gray-500" />
+        </motion.div>
+
+        {/* Info */}
+        <h3 className="text-xl font-bold text-yellow-500 capitalize">{name}</h3>
+        <p className="text-gray-600 text-md flex items-center mt-1">
+          <Mail className="w-4 h-4 mr-2" /> {email || "No Email"}
+        </p>
+        <p className="text-gray-600 text-md flex items-center mt-1">
+          <MapPin className="w-4 h-4 mr-2" /> {city || "Not Added"}
+        </p>
+
+        {/* Button */}
+        <motion.button
+          // onClick={onSendRequest}
+          className="mt-4 px-5 py-2 bg-green-500 text-white text-sm rounded-xl hover:bg-green-700"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Send Request
+        </motion.button>
+      </div>
     </motion.div>
   );
 };
 
-export default ProfileCards
+export default ProfileCard;

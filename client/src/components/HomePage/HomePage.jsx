@@ -1,29 +1,12 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import axios  from "axios";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 
 const HomePage = () => {
+
   const user = useSelector((state) => state.userSlice.user);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("https://server-ruddy-nu.vercel.app/data/getAll",
-        {
-          withCredentials: true,
-        });
-      console.log("Data fetched successfully:", response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error.message);
-    }
-  };
-
-
-  useEffect(() => {
-    fetchData();
-  }, [])
 
   return (
     <motion.div
@@ -67,8 +50,15 @@ const HomePage = () => {
         transition={{ delay: 1.5 }}
       >
         Start your journey today – swap skills, connect, and grow 🌱
+      <span
+        className="bg-slate-500 px-4 mx-4 py-1 rounded-md cursor-pointer text-white hover:bg-yellow-600 transition"
+      >
+        <Link to="/allUserPage">Explore All Users</Link>
+      </span>
       </motion.div>
+      
     </motion.div>
+
   );
 };
 

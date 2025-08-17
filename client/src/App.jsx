@@ -11,6 +11,7 @@ import Footer from "./components/Footer/Footer";
 // import Skillsform from "./components/SkillsForm/Skillsform";
 import About from "./components/About/About";
 import HomePage from "./components/HomePage/HomePage";
+import AllUserPage from "./components/AllUserPage/AllUserPage";
 // import axios from "axios";
 
 function App() {
@@ -60,6 +61,10 @@ function App() {
           <Route
             path="about"
             element={user?.email ? <About /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/allUserPage"
+            element={user?.email ? <AllUserPage /> : <Navigate to="/login" />}
           />
           <Route
             path="login"
