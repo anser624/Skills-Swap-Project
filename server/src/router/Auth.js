@@ -32,12 +32,12 @@ authRouter.post("/login", async (req, res) => {
     const { email, password } = req.body;
     console.log("Body received:", req.body);
     const user = await UserAuth.findOne({ email: email });
-        console.log("User found:", user);
+    console.log("User found:", user);
     if (!user) {
       return res.status(401).json("User Not Found !");
     }
     const isMatch = await bcrypt.compare(password, user.password);
-     console.log("Password match:", isMatch);
+    console.log("Password match:", isMatch);
     if (!isMatch) {
       return res.status(401).json("Password Not Match !");
     }
@@ -48,7 +48,7 @@ authRouter.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true, // Vercel HTTPS use karta hai
-      sameSite: "None", // ✅ Cross-origin ke liye
+      sameSite: "none", // ✅ Cross-origin ke liye
       expires: new Date(Date.now() + 60 * 30000),
     });
     res.status(200).json({
@@ -110,9 +110,10 @@ authRouter.post("/signup", async (req, res) => {
 
 authRouter.post("/logout", async (req, res) => {
   res.cookie("token", null, {
-    expires: new Date(Date.now() * 0),
+    expires: new Date(Date.now() + 60 * 0),
   });
-  res.send("LogOut Successfully!!");
+  // res.clearCookie("token", cookieOptions);
+  res.send("Log-Out Successfully!!");
   console.log("Bas Ustad Hogaya LogOut !");
 });
 

@@ -1,9 +1,29 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import axios  from "axios";
+import { useEffect } from "react";
+
 
 const HomePage = () => {
   const user = useSelector((state) => state.userSlice.user);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://server-ruddy-nu.vercel.app/data/getAll",
+        {
+          withCredentials: true,
+        });
+      console.log("Data fetched successfully:", response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchData();
+  }, [])
 
   return (
     <motion.div

@@ -5,7 +5,6 @@ dotenv.config();
 
  const verifyToken = (req, res, next) => {
   const token = req.cookies.token; // assuming cookie name is 'token'
-
   if (!token) {
     return res.status(401).send("Unauthorized: No token provided");
   }

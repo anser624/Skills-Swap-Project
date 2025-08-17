@@ -25,13 +25,13 @@ const Footer = () => {
           <ul className="space-y-2 text-gray-300">
             {user?.email ? (
               <>
-                <li><Link href="/homepage" className="hover:text-yellow-400 transition">Home</Link></li>
+                <li><Link href="/" className="hover:text-yellow-400 transition">Home</Link></li>
                 <li><Link href="/about" className="hover:text-yellow-400 transition">About</Link></li>
               </>
             ) : (
               <>
-                <li><Link href="/homepage" className="hover:text-yellow-400 transition">Login</Link></li>
-                <li><Link href="/about" className="hover:text-yellow-400 transition">Signup</Link></li>
+                <li><Link href="/login" className="hover:text-yellow-400 transition">Login</Link></li>
+                <li><Link href="/signup" className="hover:text-yellow-400 transition">Signup</Link></li>
               </>
             )}
           </ul>

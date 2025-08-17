@@ -2,17 +2,21 @@ const express = require('express');
 const { verifyToken } = require('../middleware/tokenAtuh');
 const { UserAuth } = require('../models/AuthUsers');
 
-
-
-
 const usersData = express.Router();
 
-usersData.get("/getAll", verifyToken, async (req, res) => {
+usersData.get("/getAll",verifyToken, async (req, res) => {
   try {
     const user = await UserAuth.find({});
-    res.send("Get All Successfully !" + user);
+    if (!user) {
+      return res.status(404).send("No users found");
+    }
+    res.status(200).json({
+      message: "Get All Successfully !",
+      data: user
+    });
   } catch (error) {
     console.log("Error Something Wrong " + error.code);
+    res.status(500).send("Internal Server Error");
   }
 });
 

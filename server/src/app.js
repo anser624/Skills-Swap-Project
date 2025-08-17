@@ -8,20 +8,20 @@ const mongoose = require("mongoose");
 
 
 
+const app = express();
 const dotenv = require('dotenv');
-
+app.use(cookieParser());
+app.use(express.json());
 dotenv.config()
 
-const app = express();
+
 connectToDb()
 
-app.use(express.json());
-app.use(cookieParser());
 
 app.use(
   cors({
     origin: [process.env.FRONTEND_URL, "http://localhost:5173"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
     credentials: true,
   })
 );
@@ -45,6 +45,7 @@ app.get("/db-check", async (req, res) => {
 
 app.options("/", cors({
   origin: [process.env.FRONTEND_URL, "http://localhost:5173"],
+  methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
   credentials: true
 }));
 

@@ -81,7 +81,7 @@ const Navbar = () => {
               <Link to="/profile" className="block hover:text-yellow-300" onClick={toggleMenu}>
                 Profile ({user.name})
               </Link>
-              <Link to="/homepage" className="block hover:text-yellow-300" onClick={toggleMenu}>
+              <Link to="/" className="block hover:text-yellow-300" onClick={toggleMenu}>
                 Home
               </Link>
               <Link to="/about" className="block hover:text-yellow-300" onClick={toggleMenu}>
