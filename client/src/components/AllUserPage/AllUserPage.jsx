@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProfileCard from "../ProfileCards/ProfileCards";
+import { useDispatch, useSelector } from "react-redux";
+import { setData } from "../../ReduxStore/features/data";
+import ProfileModal from "../ProfileModal/ProfileModal";
 
 const AllUserPage = () => {
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const [selectedUser, setSelectedUser] = useState(null);
+    const dispatch = useDispatch();
+    const {items} = useSelector((state) => state.data);
     const fetchData = async () => {
         try {
             setLoading(true);
             const response = await axios.get("https://server-ruddy-nu.vercel.app/data/getAll", {
                 withCredentials: true,
             });
+            dispatch(setData(response.data.data));
             setUserData(response.data.data);
         } catch (error) {
             console.error("Error fetching users:", error.message);
@@ -39,12 +45,19 @@ const AllUserPage = () => {
                                 name={v.name}
                                 email={v.email}
                                 city={v.city}
+                                onClick={() => setSelectedUser(v)}
                             //   onSendRequest={() => alert(`Request sent to ${v.name}`)}
                             />
                         ))}
                     </div>
                 )}
             </div>
+            {selectedUser && (
+                <ProfileModal
+                    user={selectedUser}
+                    onClose={() => setSelectedUser(null)}
+                />
+            )}
         </>
     );
 };

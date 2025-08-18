@@ -18,7 +18,7 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  const user = useSelector((state) => state.userSlice.user);
+  const {user} = useSelector((state) => state.user);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -86,9 +86,6 @@ const Navbar = () => {
               </Link>
               <Link to="/about" className="block hover:text-yellow-300" onClick={toggleMenu}>
                 About
-              </Link>
-              <Link to="/skillForm" className="block hover:text-yellow-300" onClick={toggleMenu}>
-                Add Skills
               </Link>
               <button
                 onClick={() => {

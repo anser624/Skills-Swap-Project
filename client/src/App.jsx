@@ -18,7 +18,7 @@ function App() {
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.userSlice.user) || {};
+  const {user} = useSelector((state) => state.user) || {};
 
   useEffect(() => {
     try {

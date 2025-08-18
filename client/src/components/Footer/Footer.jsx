@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
 
-  const user = useSelector((state) => state.userSlice.user);
+  const {user} = useSelector((state) => state.user);
 
   return (
     <footer className="px-5 py-10 text-white bg-slate-900">

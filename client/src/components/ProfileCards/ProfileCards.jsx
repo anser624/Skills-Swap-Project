@@ -1,9 +1,10 @@
 import { User, Mail, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 
-const ProfileCard = ({ name, email, city }) => {
+const ProfileCard = ({ name, email, city,onClick }) => {
   return (
     <motion.div
+      onClick={onClick}
       className="bg-slate-800 p-6 rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer"
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.98 }}
