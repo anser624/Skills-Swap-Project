@@ -45,6 +45,11 @@ const userSchema = new mongoose.Schema(
       type:String,
       trim:true,
       lowercase:true
+    },
+    bio:{
+      type:String,
+      trim:true,
+      lowercase:true
     }
   },
   {

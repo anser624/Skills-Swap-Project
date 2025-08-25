@@ -1,7 +1,7 @@
 import { User, Mail, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 
-const ProfileCard = ({ name, email, city,onClick }) => {
+const ProfileCard = ({ name,city,onClick }) => {
   return (
     <motion.div
       onClick={onClick}
@@ -22,9 +22,6 @@ const ProfileCard = ({ name, email, city,onClick }) => {
 
         {/* Info */}
         <h3 className="text-xl font-bold text-yellow-500 capitalize">{name}</h3>
-        <p className="text-gray-600 text-md flex items-center mt-1">
-          <Mail className="w-4 h-4 mr-2" /> {email || "No Email"}
-        </p>
         <p className="text-gray-600 text-md flex items-center mt-1">
           <MapPin className="w-4 h-4 mr-2" /> {city || "Not Added"}
         </p>

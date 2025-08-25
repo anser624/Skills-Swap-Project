@@ -61,6 +61,7 @@ authRouter.post("/login", async (req, res) => {
         city: user.city,
         teach: user.teach,
         learn: user.learn,
+        bio: user.bio,
       },
     });
   } catch (error) {
@@ -71,7 +72,7 @@ authRouter.post("/login", async (req, res) => {
 
 authRouter.post("/signup", async (req, res) => {
   try {
-    const { name, email, password, teach, learn, city, gender } = req.body;
+    const { name, email, password, teach, learn, city, gender,bio } = req.body;
     if (!validator.isEmail(email)) {
       return res.status(400).json({ error: "Invalid Email !" });
     } else if (!validator.isStrongPassword(password)) {

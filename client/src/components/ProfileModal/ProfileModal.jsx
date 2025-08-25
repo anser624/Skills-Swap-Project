@@ -32,16 +32,19 @@ const ProfileModal = ({ user, onClose }) => {
                             {user.name}
                         </h2>
                         <p className="text-gray-700 mb-2">
-                            <span className="font-semibold ">Email:</span> {user.email}
+                            <span className="font-semibold ">Bio : </span> {user.bio ? user.bio : <span className="text-gray-400 italic">Not added</span>}
                         </p>
                         <p className="text-gray-700 mb-2">
-                            <span className="font-semibold">City:</span> {user.city}
+                            <span className="font-semibold ">Email : </span> {user.email ? user.email : <span className="text-gray-400 italic">Not added</span>}
+                        </p>
+                        <p className="text-gray-700 mb-2">
+                            <span className="font-semibold">City : </span> {user.city ? user.city : <span className="text-gray-400 italic">Not added</span>}
                         </p>
 
                         {/* Teach & Learn arrays (fix wala) */}
                         <div className="mt-4 space-y-3">
                             <div>
-                                <h3 className="font-semibold text-blue-600">Teaches:</h3>
+                                <h3 className="font-semibold text-blue-600">Teaches : </h3>
                                 {user.teach && user.teach.length > 0 ? (
                                     <ul className="list-disc list-inside">
                                         {user.teach.map((item, i) => (
@@ -54,7 +57,7 @@ const ProfileModal = ({ user, onClose }) => {
                             </div>
 
                             <div>
-                                <h3 className="font-semibold text-green-600">Wants to Learn:</h3>
+                                <h3 className="font-semibold text-green-600">Wants to Learn : </h3>
                                 {user.learn && user.learn.length > 0 ? (
                                     <ul className="list-disc list-inside">
                                         {user.learn.map((item, i) => (
@@ -62,7 +65,7 @@ const ProfileModal = ({ user, onClose }) => {
                                         ))}
                                     </ul>
                                 ) : (
-                                    <p className="text-gray-900 italic">Not Added</p>
+                                    <p className="text-gray-500 italic">Not Added</p>
                                 )}
                             </div>
                         </div>

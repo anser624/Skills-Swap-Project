@@ -34,13 +34,14 @@ usersData.delete("/delete/:id", verifyToken, async (req, res) => {
 
 usersData.patch("/update", verifyToken, async (req, res) => {
   try {
-    const { id, teach, learn, city, gender } = req.body;
+    const { id, teach, learn, city, gender ,bio} = req.body;
     console.log(id);
     const updateUser = {}
     if (req.body.city) updateUser.city = req.body.city;
     if (req.body.gender) updateUser.gender = req.body.gender;
     if (req.body.learn && req.body.learn.length > 0) updateUser.learn = req.body.learn;
     if (req.body.teach && req.body.teach.length > 0) updateUser.teach = req.body.teach;
+    if (req.body.bio) updateUser.bio = req.body.bio;
     const user = await UserAuth.findByIdAndUpdate(
       id,
       updateUser,

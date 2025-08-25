@@ -11,6 +11,7 @@ const Profile = () => {
   const [city, setCity] = useState("");
   const [gender, setGender] = useState("");
   const [teach, setTeach] = useState([]);
+  const [bio, setBio] = useState('');
   const [learn, setLearn] = useState([]);
   const [teachArray, setTeachArray] = useState([]);
   const [learnArray, setLearnArray] = useState([]);
@@ -31,6 +32,7 @@ const Profile = () => {
           // body for backend
           id: user?.id,
           city: city || user.city,       // Agar city empty hai to purani value use karo
+          bio: bio || user.bio,       // Agar city empty hai to purani value use karo
           gender: gender || user.gender, // Agar gender empty hai to purani value use karo
           learn: learnArray.length > 0 ? learnArray : user.learn,
           teach: teachArray.length > 0 ? teachArray : user.teach
@@ -56,6 +58,7 @@ const Profile = () => {
   const handleEditClick = () => {
     setCity(user.city || "");
     setGender(user.gender || "");
+    setGender(user.bio || "");
     setTeach(user.teach?.join(", ") || "");  // array → string
     setLearn(user.learn?.join(", ") || "");
     setEditModal(true);
@@ -150,14 +153,14 @@ const Profile = () => {
 
         {/* Modal */}
         {editModal && (
-          <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 px-3">
+          <div className="fixed inset-0 bg-black/50 flex font-sans justify-center items-center z-50 px-3">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.1 }}
               className="shadow-md max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-700 text-black p-5 rounded-xl w-full max-w-md sm:w-[80%] md:w-[60%]"
             >
-              <h2 className="text-white text-center text-xl sm:text-2xl font-bold mb-4">
+              <h2 className="text-white text-center font-serif text-xl sm:text-2xl font-bold mb-4">
                 Edit Profile
               </h2>
               {/* --- form content remains same --- */}
@@ -166,7 +169,7 @@ const Profile = () => {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.1 }}
                     className="shadow-md max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-700 text-black dark:text-white p-5 rounded-xl w-full max-w-md sm:w-[80%] md:w-[60%]"
                   >
                     <h2 className="text-white text-center text-xl sm:text-2xl font-bold mb-4">
@@ -174,6 +177,26 @@ const Profile = () => {
                     </h2>
 
                     <form onSubmit={handleUpdate} className="flex flex-col gap-5">
+                      {/* Bio Section */}
+                      <motion.div
+                        className="flex flex-col sm:flex-row sm:items-end gap-3"
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                      >
+                        <div className="flex flex-col flex-1">
+                          <label className="block font-semibold mb-1">
+                            Tell About YourSelf
+                          </label>
+                          <textarea
+                            value={bio}
+                            onChange={(e) => setBio(e.target.value)}
+                            placeholder="Your Name Is ?"
+                            className="w-full border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded px-3 py-2"
+                          />
+                        </div>
+
+                      </motion.div>
                       {/* Gender Field */}
                       <motion.div
                         initial={{ opacity: 0, x: 30 }}
@@ -368,18 +391,21 @@ const Profile = () => {
         {/* Profile Data */}
         <ul className="space-y-4 sm:space-y-6 text-lg sm:text-2xl capitalize text-gray-200 font-light">
           <li>
-            <span className="font-semibold text-white">Name:</span> {user?.name}
+            <span className="font-semibold text-white">Name : </span> {user?.name}
           </li>
           <li>
-            <span className="font-semibold text-white">City:</span> {user?.city}
+            <span className="font-semibold text-white">Bio : </span> {user?.bio ? user.bio : <span className="text-gray-400 italic">Not added</span>}
           </li>
           <li>
-            <span className="font-semibold text-white">Gender:</span> {user?.gender}
+            <span className="font-semibold text-white">City : </span> {user?.city ? user.city : <span className="text-gray-400 italic">Not added</span>}
+          </li>
+          <li>
+            <span className="font-semibold text-white">Gender : </span> {user?.gender ? user.gender : <span className="text-gray-400 italic">Not added</span>}
           </li>
 
           {/* Teach Skills */}
           <li className="flex flex-col gap-2">
-            <span className="font-semibold text-white">Skills to Teach:</span>
+            <span className="font-semibold text-white">Skills to Teach : </span>
             <div className="flex flex-wrap gap-2">
               {user?.teach?.length > 0 ? (
                 user.teach.map((skill, i) => (
@@ -399,7 +425,7 @@ const Profile = () => {
 
           {/* Learn Skills */}
           <li className="flex flex-col gap-2">
-            <span className="font-semibold text-white">Skills to Learn:</span>
+            <span className="font-semibold text-white">Skills to Learn : </span>
             <div className="flex flex-wrap gap-2">
               {user?.learn?.length > 0 ? (
                 user.learn.map((skill, i) => (

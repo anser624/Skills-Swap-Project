@@ -43,7 +43,6 @@ const AllUserPage = () => {
                             <ProfileCard
                                 key={v._id}
                                 name={v.name}
-                                email={v.email}
                                 city={v.city}
                                 onClick={() => setSelectedUser(v)}
                             //   onSendRequest={() => alert(`Request sent to ${v.name}`)}

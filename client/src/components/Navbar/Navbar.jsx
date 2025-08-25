@@ -41,20 +41,21 @@ const Navbar = () => {
           </div>
 
           {/* Main Menu */}
-          <div className="hidden md:flex gap-6 items-center text-lg font-semibold">
+          <div className="hidden md:flex gap-6 items-center text-lg font-sans italic font-semibold">
             {user?.email ? (
               <>
                 <div className="flex items-center gap-2 group">
                   <Link to='/profile' className="capitalize font-semibold group-hover:text-yellow-300">
                     {user.name}
                   </Link>
-                  <div className="w-7 h-7 bg-yellow-400 text-blue-900 font-bold rounded-full flex items-center justify-center group-hover:rotate-12 transition-transform">
+                  <div className="w-7 h-7 bg-yellow-400 text-blue-900 font-bold rounded-full flex items-center justify-center group-hover:rotate-49 transition-transform">
                     <Link to="/profile">{user.name[0]}</Link>
                   </div>
                 </div>
 
                 <Link to="/" className="hover:text-yellow-300 transition">Home</Link>
                 <Link to="/about" className="hover:text-yellow-300 transition">About</Link>
+                <Link to="/allUserPage" className="hover:text-yellow-300 transition">Explore </Link>
 
                 <button
                   onClick={handleLogOut}
@@ -86,6 +87,9 @@ const Navbar = () => {
               </Link>
               <Link to="/about" className="block hover:text-yellow-300" onClick={toggleMenu}>
                 About
+              </Link>
+              <Link to="/allUserPage" className="block hover:text-yellow-300" onClick={toggleMenu}>
+                Explore Users
               </Link>
               <button
                 onClick={() => {
